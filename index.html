@@ -51,6 +51,33 @@
 
     </section>
 
+<h1><a id="day-two---june-22-2015" class="anchor" href="#day-two---june-22-2015" aria-hidden="true"><span class="octicon octicon-link"></span></a>Day Two - June 22, 2015</h1>
+
+<h2>Installing Erlang and Elixir</h2>
+
+<p>Installing Erlang via <pre>apt-get install Erlang</pre> took about 2 hours (the brick with a microSD card is not exactly blazing fast) but went without a glitch.</p>
+
+<p>I then installed Elixir from the <a href="http://elixir-lang.org/install.html#precompiled-package">pre-compiled package</a> by doing </p>
+
+<pre>
+  wget https://github.com/elixir-lang/elixir/releases/download/v1.0.4/Precompiled.zip
+  apt-get install unzip
+  mkdir /opt/elixir
+  unzip Precompiled.zip -d /opt/elixir
+</pre>
+
+<p>and then adding /opt/elixir/bin to the PATH in my .bashrc by logging out root and logging in as myself (the ev3dev setup process had me add a user for myself)
+and adding this at the end of my .bashrc</p>
+
+<pre>
+export ELIXIR=/opt/elixir 
+
+PATH=$PATH:$ELIXIR/bin
+</pre>
+
+<p> and then doing <pre>source .bashrc</pre></p>
+
+<p>Now Elixir runs on the EV3. How cool is that? <img alt="elixir on ev3" src="images/ev3dev_iex.png"/></p>
   
   </body>
 </html>
