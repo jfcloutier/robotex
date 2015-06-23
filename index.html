@@ -38,7 +38,7 @@
 </li>
 </ol>
 
-<p>I will be working from my laptop running Ubuntu 14.04 </p>
+<p>I will be working from my Lenovo G710 laptop running Ubuntu 14.04 </p>
 
 <p>Let's see how easy or hard it will be for me to get there.</p>
 
@@ -72,6 +72,20 @@ PATH=$PATH:$ELIXIR/bin
 <p> and then doing <pre>source .bashrc</pre></p>
 
 <p>That took very little time and now Elixir runs on the EV3. How cool is that? <img alt="elixir on ev3" src="images/ev3_iex.png"/></p>
+
+<h2>Bluetooth woes</h2>
+
+<p>I spent more hours than I care to admit trying to establish a network connection via Bluetooth. The first roadbloack was missing Bluetooth firmware on my laptop. I took me a while
+to <a class="anchor" href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1242079"> figure this one out</a>. Once Bluetooth on my laptop was functional, I could successfully
+pair my laptop's with the ev3dev over Bluetooth.</p>
+
+<p>Next step was establishing a network connection over Bluetooth. For that, I needed to install <a class="anchor" href="https://apps.ubuntu.com/cat/applications/precise/blueman/">Bluetooth Manager</a>
+on my laptop as <a class="anchor" href="http://www.ev3dev.org/docs/tutorials/connecting-to-the-internet-via-bluetooth/">instructed</a> and setup network settings. No problem.</p>
+
+<p>This is where I ran into a roadblock I have yet to overcome. The "Network Connection" button in <img alt="network connection"  src="images/bluetooth-device-network-connection.png"/> won't do anything.
+After googling the living daylight out of this, I suspect this may have to do with missing Bluetooth security permissions on my laptop. I have an idea on how to go about it but now, for some reason,
+Ev3dev won't reboot. So I am re-initializing the microSD card with a fresh image and see how far I can get this time. This is frustrating.</p>
+
      <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jfcloutier/robotex">Robotex</a> is maintained by <a href="https://github.com/jfcloutier">jfcloutier</a>.</span>
 
