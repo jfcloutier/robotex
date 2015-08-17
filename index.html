@@ -125,6 +125,8 @@ Ev3dev won't reboot. So I am re-initializing the microSD card with a fresh image
 
 <p>You will find the code in my <a href="https://github.com/jfcloutier/ev3ex" class="anchor">EV3EX</a> public Github repository. Be warned! It is very much a work in progress.</p>
 
+<p>Admin note: Make sure that the account you log into to execute your code on the EV3 brick belongs to the ev3dev group. Otherwise your code will fail with inufficient file permissions.</p>
+
 <p>Unlike Torben, I eschewed the clever use of macros and opted instead for painstakingly hand-writing functions that hide the idiosycratic details of the EV3DEV interface. My goal was to expose the EV3 via pure functions, hiding as much as possible any file-based state and control.<p>
 
 <p>Here are some usage examples:</p>
@@ -259,6 +261,36 @@ false
 iex(32)> TS.released? touch
 true
 </pre>
+
+<h2>Development process</h2>
+
+<p>I code on a laptop running the latest stable releases of Ubuntu, Erlang and Elixir.</p>
+
+<p>The EV3 brick is slow, at least compared to modern, multicore laptops. So I code on my laptop and deploy compiled Elixir code to the brick.</p>
+
+<p><img alt="compile-deploy" src="images/ev3_compile_deploy.png"/></p>
+
+<p>I use the following shell script to quickly deploy my code to the EV3 brick:</p>
+
+<p>In my laptop's .bashrc file:</p>
+
+<pre>
+alias deploy-ev3='pushd ~/projects; tar -cf ev3ex.tar --exclude="*.git" --exclude="*.*~" --exclude=".gitignore" ev3ex; scp ev3ex.tar jf@192.168.1.125:~jf/ev3ex.tar; popd'
+</pre>
+
+<p>The code runs on the brick. I did not and will not attempt to have code running on my laptop and accessing motors and sensors over Wifi.</p>
+
+<p><img alt="install" src="images/install_ev3.png"/></p>
+
+<p>I use the following shell script to install the code on the EV3 brick.</p> 
+
+<p>In my EV3 brick's .bashrc file:</p>
+
+<pre>
+alias install-ev3='pushd ~;rm -r ev3ex;tar -xvf ev3ex.tar;popd'
+</pre>
+
+<p>You will need to modify them to fit your own context.</p>
 
 <h2>Recent purchases</h2>
 
