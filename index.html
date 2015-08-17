@@ -264,33 +264,30 @@ true
 
 <h2>Development process</h2>
 
-<p>I code on a laptop running the latest stable releases of Ubuntu, Erlang and Elixir.</p>
+<p>I do my work on a laptop running the latest stable releases of Ubuntu, Erlang and Elixir.</p>
 
 <p>The EV3 brick is slow, at least compared to modern, multicore laptops. So I code on my laptop and deploy compiled Elixir code to the brick.</p>
 
 <p><img alt="compile-deploy" src="images/ev3_compile_deploy.png"/></p>
 
-<p>I use the following shell script to quickly deploy my code to the EV3 brick:</p>
-
-<p>In my laptop's .bashrc file:</p>
+<p>I use a shell script to quickly upload my code to the EV3 brick. 
+It is defined in my laptop's .bashrc file:</p>
 
 <pre>
 alias deploy-ev3='pushd ~/projects; tar -cf ev3ex.tar --exclude="*.git" --exclude="*.*~" --exclude=".gitignore" ev3ex; scp ev3ex.tar jf@192.168.1.125:~jf/ev3ex.tar; popd'
 </pre>
 
-<p>The code runs on the brick. I did not and will not attempt to have code running on my laptop and accessing motors and sensors over Wifi.</p>
+<p>I then unpack the code I uploaded to the brick.</p>
 
 <p><img alt="install" src="images/install_ev3.png"/></p>
 
-<p>I use the following shell script to install the code on the EV3 brick.</p> 
-
-<p>In my EV3 brick's .bashrc file:</p>
+<p>I use the following shell script defined in my EV3 brick's .bashrc file:</p>
 
 <pre>
 alias install-ev3='pushd ~;rm -r ev3ex;tar -xvf ev3ex.tar;popd'
 </pre>
 
-<p>You will need to modify them to fit your own context.</p>
+<p>You will need to modify the scripts to fit your own context (ip address, user name, directories etc.)</p>
 
 <h2>Recent purchases</h2>
 
