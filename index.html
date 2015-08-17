@@ -109,6 +109,160 @@ Ev3dev won't reboot. So I am re-initializing the microSD card with a fresh image
 
 <p>I learned from his talk that the EV3 Elixir library is out-of-date with the latest release of ev3dev. I guess my next step is finding out how much of an upgrade is required.</p>
 
+<h1><a id="august-17-2015" class="anchor" href="#August 17-2015" aria-hidden="true"><span class="octicon octicon-link"></span></a>August 17, 2015</h1>
+
+<p>My son Will is in camp for two weeks (Maine Robotics, Island Horse Camp) and has
+   relinquished his death grip on the EV3. Time to make some progress with Elixir robotics!
+
+<h2>Accessing the EV3 from Elixir</h2>
+
+<p>I completed Elixir modules to...
+<ul>
+<li> interface with the EV3DEV's /sys/class/... file-interface to the EV3.</li>
+<li> expose the tachomotors and sensors (color, infrared and touch) via a domain language </li>
+</ul>
+</p>
+
+<p>You will find the code in my <a href="https://github.com/jfcloutier/ev3ex" class="anchor">EV3EX</a> public Github repository. Be warned! It is very much a work in progress.</p>
+
+<p>Unlike Torben, I eschewed the clever use of macros and opted instead for painstakingly hand-writing functions that hide the idiosycratic details of the EV3DEV interface. My goal was to expose the EV3 via pure functions, hiding as much as possible file-based state and control.<p>
+
+<p>Here are some usage examples:</p>
+
+<h3>Tacho motor</h3>
+
+<pre>
+iex(1)> alias EV3.Tachomotor, as: TM
+...
+iex(2)> [motor|_] = TM. motors # Detect motors and hold on to the first one
+[%EV3.Device{class: :tacho_motor,
+  path: "/sys/class/tacho-motor/motor0", port: "outA",
+  props: %{commands: ["run-forever", "run-to-abs-pos",
+     "run-to-rel-pos", "run-timed", "run-direct", "stop", "reset"],
+    controls: %{duty_cycle: 0, polarity: :normal, position: 0,
+      ramp_down: 0, ramp_up: 0, speed: 0, speed_mode: nil,
+      speed_regulation: :off, time: 0}, count_per_rot: 360,
+    stop_commands: ["coast", "brake", "hold"]}, type: :large},
+ %EV3.Device{class: :tacho_motor,
+  path: "/sys/class/tacho-motor/motor1", port: "outB",
+  props: %{commands: ["run-forever", "run-to-abs-pos",
+     "run-to-rel-pos", "run-timed", "run-direct", "stop", "reset"],
+    controls: %{duty_cycle: 0, polarity: :normal, position: 0,
+      ramp_down: 0, ramp_up: 0, speed: 0, speed_mode: nil,
+      speed_regulation: :off, time: 0}, count_per_rot: 360,
+    stop_commands: ["coast", "brake", "hold"]}, type: :medium}]
+
+iex(3)> motor = TM.set_speed(motor, :rps, 1) # Set motor speed to 1 rotation per second
+...
+iex(4)> TM.brake motor # Stop the motor quickly
+...
+iex(5)> motor = TM.reset # Reset the motor to its initial state
+...
+iex(6)> motor = motor |> TM.set_duty_cycle(50) |> TM.reverse_polarity # 50% power and in reverse
+...
+iex(7)> motor = TM.run_for(motor, 10000) # run for 10 secs
+...
+iex(8)> IO.puts TM.current_speed(motor, :dps) # Print the current speed in degrees per sec
+360
+iex(9)> TM.stalled? motor # Is the motor stalled?
+false
+</pre> 
+
+<h3>Lego Sensors</h3>
+
+<pre>
+iex(10)> alias EV3.LegoSensor, as: LS
+...
+iex(11)> sensors = LS.sensors # Detect all connected sensors
+[%EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor0",
+  port: "in3", props: %{mode: "TOUCH"}, type: :touch},
+ %EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor1",
+  port: "in1", props: %{mode: "IR-REMOTE"}, type: :infrared},
+ %EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor2",
+  port: "in2", props: %{mode: "COL-COLOR"}, type: :color}]
+
+iex(13)> ir = sensors |> Enum.find(&(LS.infrared? &1)) # Get an infrared sensor
+%EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor1",
+ port: "in1", props: %{mode: "IR-REMOTE"}, type: :infrared}
+
+iex(14)> color_sensor = sensors |> Enum.find(&(LS.color? &1)) # Get a color sensor
+...
+iex(15)> touch = sensors |> Enum.find(&(LS.touch? &1)) # Get a touch sensor
+...
+</pre>
+
+<h4>Infrared sensor</h4>
+
+<pre>
+iex(16)> alias EV3.InfraredSensor, as: IR
+...
+iex(17)> ir = IR.set_proximity_mode(ir) # Set proximity mode
+%EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor1",
+ port: "in1", props: %{mode: "IR-PROX"}, type: :infrared}
+
+iex(18)> IR.proximity(ir) # Get proximity of obstacle as percent of range                          
+62
+iex(19) ir = IR.set_seek_mode(ir) # Set beacon-seeking mode
+%EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor1",
+ port: "in1", props: %{mode: "IR-SEEK"}, type: :infrared}
+
+iex(20) IR.seek_distance(ir, 1) # Get distance (as % of range) of beacon on channel 1
+15
+iex(21) IR.seek_heading(ir, 1) # Get heading of beacon on channel 1 (far left is -25)
+-12
+iex(22)> ir = IR.set_remote_mode(ir) # Set remote control mode
+%EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor1",
+ port: "in1", props: %{mode: "IR-REMOTE"}, type: :infrared}
+
+iex(23)> IR.remote_buttons(ir, 1) # What buttons were pushed on remote set to channel 1?
+%{blue: :down, red: :up}
+</pre>
+
+<h4>Color sensor</h4>
+
+<pre>
+iex(24)> color_sensor = CS.set_reflect_mode(color_sensor)  # Set to reflected light detection mode         
+%EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor2",
+ port: "in2", props: %{mode: "COL-REFLECT"}, type: :color}
+
+iex(25)> CS.reflected_light(color_sensor) # How much light is reflected from the sensor (in % of maximum)?
+16
+iex(26)> color_sensor = CS.set_ambient_mode(color_sensor) # Set to ambient light detection mode
+%EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor2",
+ port: "in2", props: %{mode: "COL-AMBIENT"}, type: :color}
+
+iex(27)> CS.ambient_light(color_sensor) # How much ambient light is detected (in % of maximum)?
+3
+iex(28)> color_sensor = CS.set_color_mode(color_sensor) # Set to color detection mode
+%EV3.Device{class: :sensor, path: "/sys/class/lego-sensor/sensor2",
+ port: "in2", props: %{mode: "COL-COLOR"}, type: :color}
+
+iex(29)>  CS.color(color_sensor) # What color is detected?
+:blue
+</pre>
+
+<h4>Touch sensor</h4>
+
+<pre>
+iex(30)> alias EV3.TouchSensor, as: TS
+...
+iex(31)> TS.pressed? touch
+false
+iex(32)> TS.released? touch
+true
+</pre>
+
+<h2>Recent purchases</h2>
+
+<p>The EV3 kit was increasingly at risk of becoming dispersed throughout the house so I bought a 
+<a href="http://www.amazon.com/gp/product/B000E3FKTE?ie=UTF8&tag=onlicort-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=B000E3FKTE" class="anchor">Plano Tackle Box</a> 
+tool organizer based on the recommendations from the <a href="http://www.brickengineer.com/pages/2007/10/09/storing-your-lego-collection/" class="anchor">Brick Engineer</a>.</p>
+
+<p>Will volunteered to store the EV3 kit in the organizer and he did a great job. <img alt="tool organizer" src="images/plano_box.jpg"/></p>
+
+<p>We went to Oregon for our summer vacation. In Portland (Or), we visited Powell's Books. Will found this fantastic book <a href="http://www.amazon.com/The-LEGO-MINDSTORMS-Idea-Book/dp/1593276001"><img alt="ev3 book" src ="images/ev3_book.jpg"/></a> about robot-building <strong>idioms</strong> for the EV3.</p>
+
+<p>Will is already exploring the many ideas in the book. <img alt="ev3 book open" src="images/ev3_book_2.jpg"/> I need to catch up with him.</p>
 
      <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jfcloutier/robotex">Robotex</a> is maintained by <a href="https://github.com/jfcloutier">jfcloutier</a>.</span>
