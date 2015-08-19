@@ -125,9 +125,9 @@ Ev3dev won't reboot. So I am re-initializing the microSD card with a fresh image
 
 <p>You will find the code in my <a href="https://github.com/jfcloutier/ev3ex" class="anchor">EV3EX</a> public Github repository. Be warned! It is very much a work in progress.</p>
 
-<p>Admin note: Make sure that the account you log into to execute your code on the EV3 brick belongs to the ev3dev group. Otherwise your code will fail with inufficient file permissions.</p>
+<p>Admin note: Make sure that the account you log into to execute your code on the EV3 brick belongs to the ev3dev group. Otherwise your code will fail with insufficient file permissions.</p>
 
-<p>Unlike Torben, I eschewed the clever use of macros and opted instead for painstakingly hand-writing functions that hide the idiosycratic details of the EV3DEV interface. My goal was to expose the EV3 via pure functions, hiding as much as possible any file-based state and control.<p>
+<p>Unlike Torben, I eschewed the clever use of macros and opted instead for painstakingly hand-writing functions that hide the idiosycratic details of the EV3DEV interface. My goal was to expose the EV3 via pure functions and immutable data, hiding as much as possible ev3dev's file-based mutable state and commands.<p>
 
 <p>Here are some usage examples:</p>
 
@@ -266,7 +266,7 @@ true
 
 <p>I do my work on a laptop running the latest stable releases of Ubuntu, Erlang and Elixir.</p>
 
-<p>The EV3 brick is slow, at least compared to modern, multicore laptops. So I code on my laptop and deploy compiled Elixir code to the brick.</p>
+<p>The EV3 brick is slow, at least compared to modern, multicore laptops. So I code on my laptop and deploy my Elixir code to the brick.</p>
 
 <p><img alt="compile-deploy" src="images/ev3_compile_deploy.png"/></p>
 
