@@ -127,7 +127,9 @@ Ev3dev won't reboot. So I am re-initializing the microSD card with a fresh image
 
 <p>Admin note: Make sure that the account you log into to execute your code on the EV3 brick belongs to the ev3dev group. Otherwise your code will fail with insufficient file permissions.</p>
 
-<p>Unlike Torben, I eschewed the clever use of macros and opted instead for painstakingly hand-writing functions that hide the idiosycratic details of the EV3DEV interface. My goal was to expose the EV3 via pure functions and immutable data, hiding as much as possible ev3dev's file-based mutable state and commands.<p>
+<p>Unlike Torben, I eschewed the clever use of macros and opted instead for painstakingly hand-writing functions that hide the idiosycratic details of the EV3DEV interface.</p>
+
+<p>My initial goal is to expose the EV3 via pure functions and immutable data, hiding as much as possible ev3dev's file-based mutable state and commands. Later, I'll explore how to take advantage of multi-processing with the OTP framework.<p>
 
 <p>Here are some usage examples:</p>
 
