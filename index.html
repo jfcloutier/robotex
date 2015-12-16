@@ -388,6 +388,8 @@ and build an event-aware central robot controller. Lots of fun coding and explor
 
       <iframe width="560" height="315" src="https://www.youtube.com/embed/JZd5v3L32mU" frameborder="0" allowfullscreen></iframe>
 
+      <p>What happens in the video: The robot starts up hungry. As soon as it smells the bacon beacon, it moves toward the food. However, as it gets close to the box the beacon sits on, obstacle avoidance kicks in. This sets our robot off course. Eventually, after some fumbling, it finds food, eats it (the small motor runs for a while) and gets sated. Curiosity now takes over and the robot roams around, running into walls and, sometimes, panicking (I need to make panicking look more panicky!). Once in a while, the robot becomes “overwhelmed” (too much going on in its mind) and it chills out for a few seconds. At some point, it gets hungry again and, this time, it easily finds food that it had pushed away from the box. The end.</p>
+
       <p>What next? Well, it sure would be nice to have a control panel that would let me peek into the mind of the robot, see what's going on at any moment, what it perceives, what it feels, and what it does in response. And maybe also interact with the robot, like pausing it or tweaking some parameter on the fly to adjust its behavior. I think I'm going to do this using <a href="elm-lang.org">Elm</a> on the browser and <a href="http://www.phoenixframework.org/">Phoenix</a> on the robot. I'll try to make good use of a combination Phoenix' Channels (pubsub over Web sockets) and Elm signals. This <a href="http://www.cultivatehq.com/posts/phoenix-elm-1/">series of blog posts</a> should be helpful.</p>
 
      <footer class="site-footer">
