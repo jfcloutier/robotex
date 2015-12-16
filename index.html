@@ -356,10 +356,39 @@ and build an event-aware central robot controller. Lots of fun coding and explor
 
       <p>For the next meetup, I was planning to take a diversion into <a href="http://elm-lang.org/">Elm</a> and use it, in combination with <a href="http://www.phoenixframework.org/">Phoenix</a>, to build a nice dashboard to better see what's going one in the robot's mind. Attendees strongly suggested that I instead move right away to getting the robot to move and do things based on its perceptions. So that's I'm going to do.</p>
 
-      <p>I got tweet from Justin Campbell with a recommended reading list that will no doubt inform my next steps. How nice!</p>
+      <p>I got a tweet from Justin Campbell with a recommended reading list that will no doubt inform my next steps. How nice!</p>
 
       <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/jfcloutier">@jfcloutier</a> I love your slides! Have you read <a href="https://t.co/91GXiTMI9m">https://t.co/91GXiTMI9m</a> or seen <a href="https://t.co/9pzIsyhDbW">https://t.co/9pzIsyhDbW</a> / <a href="https://t.co/EOdSKk3U5E">https://t.co/EOdSKk3U5E</a>?</p>&mdash; Justin Campbell (@justincampbell) <a href="https://twitter.com/justincampbell/status/667010116600860672">November 18, 2015</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+      <h1><a id="december-16-2015" class="anchor" href="#december-16-2015" aria-hidden="true"><span class="octicon octicon-link"></span></a>December 16, 2015</h1>
+
+      <h2>Meetup: Robotics with Elixir, part 3 - Ex Machina</h2>
+
+      <p>At the <a href="http://www.meetup.com/Portland-Erlang-Elixir/events/227017164/">meetup</a> last night, I demoed a fully functional autonomous robot running my now fully implemented home-brewed "theory of robotic mind". This had been a long time coming!</p>
+
+      <p> <a href="http://files.meetup.com/17314552/december_15_2015.pdf"><img alt="meetup slides" scr="images/december_15_2105_meetup.png"/></a></p>
+
+      <p>The last couple of weeks are a blur. I have spent more hours on this project than I am willing to admit and I've had way too much fun to pretend to be a responsible adult. I do have to say though, Elixir and OTP are an absolute joy and they are a perfect fit for implementing a highly concurrent "society of mind" model.</p>
+
+      <figure>
+	<img alt="model of robotic mind" src="images/theory_of_robotic_mind.png"/>
+	<figcaption>The model of mind I implemented</figcaption>
+      </figure>
+
+      <figure>
+	<img alt="inside the robot mind" src="images/mind.png"/>
+	<figcaption>What happens inside my robot's mind</figcaption>
+      </figure>
+     
+
+      <p>The hard part was debugging the real-world behavior of the robot because nothing works reliably in the physical world. Wheels skid, the proximity sensor sees ghosts, the color sensor is picky, the tuning of the motors is overly sensitive, the robot falls apart after bumbing into walls too many times, and on and on. It also doesn't help that the EV3 brick is a slooow computer; the edit-deploy-run cycle takes way too long.</p>
+
+      <p>And yet and yet... There's nothing like the excitement of seeing your code's behavior externalized in a moving robot, of watching your code bump into things, recover from jams, orient itself toward a beacon, gauge its speed according to distance from goal etc. It sure beats staring at a debugger.</p>
+
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/JZd5v3L32mU" frameborder="0" allowfullscreen></iframe>
+
+      <p>What next? Well, it sure would be nice to have a control panel that would let me peek into the mind of the robot, see what's going on at any moment, what it perceives, what it feels, and what it does in response. And maybe also interact with the robot, like pausing it or tweaking some parameter on the fly to adjust its behavior. I think I'm going to do this using <a href="elm-lang.org">Elm</a> on the browser and <a href="http://www.phoenixframework.org/">Phoenix</a> on the robot. I'll try to make good use of a combination Phoenix' Channels (pubsub over Web sockets) and Elm signals. This <a href="http://www.cultivatehq.com/posts/phoenix-elm-1/">series of blog posts</a> should be helpful.</p>
 
      <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jfcloutier/robotex">Robotex</a> is maintained by <a href="https://github.com/jfcloutier">jfcloutier</a>.</span>
