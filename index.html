@@ -409,9 +409,9 @@ and build an event-aware central robot controller. Lots of fun coding and explor
 
       <h1><a id="january-21-2016" class="anchor" href="#january-21-2016" aria-hidden="true"><span class="octicon octicon-link"></span></a>January 21, 2016</h1>
 
-      <h2>Boston Elixir Meetup: FUn with Robots and Elixir</h2>
+      <h2>Boston Elixir Meetup: Fun with Robots and Elixir</h2>
 
-      <p>A week and a half ago, I received an invitation to present at the Boston Elixir meetup about robots and Elixir. I figured I needed to do a number of things to get ready for the meetup.</p>
+      <p>A week and a half ago, I received an invitation to present at the Boston Elixir meetup about my adventures programming robots with Elixir. I figured I needed to do a number of things to get ready for the meetup.</p>
 
       <ol>
 	<li>Upgrade the EV3 to the latest releases of Erlang and Elixir</li>
@@ -424,27 +424,27 @@ and build an event-aware central robot controller. Lots of fun coding and explor
 
       <p>The EV3 was still running version 17 of Erlang. It was time to move to the latest version (18.2.1). It promises faster compile times (a sore point on the EV3) and more efficient handling of maps.</p>
 
-      <p>Unfortunately there is no pre-packaged Debian distribution of Erlang 18.2.1 that I could find for the ARM processor the EV3 runs on (there is an Erlang 17 package). So no easy "apt-get-install erlang" for me. I had to go the build-from-source route, which meant removing Erlang v.17 (apt-get remove erlang), downloading the latest Erlang sources and building them on the EV3. </p>
+      <p>Unfortunately there is no pre-packaged Debian distribution of Erlang v.18 that I could find for the ARM processor the EV3 runs on (there is an Erlang 17 package). So no easy "apt-get-install erlang" for me. I had to go the build-from-source route, which meant removing Erlang v.17 (apt-get remove erlang), downloading the latest Erlang sources and building them on the EV3. </p>
 
-      <p>The Erlang sources file is available <a href="http://www.erlang.org/downloads">here</a> and the instruction for building Erlang from sources are <h href="https://github.com/erlang/otp/blob/maint/HOWTO/INSTALL.md">here</a></p>
+      <p>The Erlang sources file is available <a href="http://www.erlang.org/downloads">here</a> and the instruction for building Erlang from sources are <a href="https://github.com/erlang/otp/blob/maint/HOWTO/INSTALL.md">here</a></p>
 
 <p>Before building Erlang, don't forget to "apt-get" gcc, make, perl, m4 and sed. Don't bother with the ncurses, termcap or termlib libraries; apt-get could not find suitable ones.</p>
 
 <p>Follow the instruction for building from sources and remember to use ./configure <b>--without-termcap</b> when configuring the build, otherwise it will fail. And be patient. The whole process takes a long time on the EV3. I chose to let it run overnight.</p>
 
-<p>Upgrading Elixir is much faster and is the same as before; just download the PreCompiled.zip for the latest version and unzip it where the older version was (see top of the blog for details).</p>
+<p>Upgrading Elixir to v.1.2.1 is much faster and is the same as before; just download the latest PreCompiled.zip from <a href="https://github.com/elixir-lang/elixir/releases/">here</a> and unzip it where the older version was (see top of the blog for details).</p>
 
 <h3>Improving on the robot</h3>
 
-<p>I must have been a good boy because I got two new sensors for Christmas.</p>
+<p>I must have been a good boy because I got two new sensors for Christmas!</p>
 
      <figure>
-	<img alt="Utrasonic sensor" src="images/ultrasonic_sensor.png"/>
+	<img alt="Utrasonic sensor" src="images/ultrasonic_sensor.jpeg"/>
 	<figcaption>The ultrasonic sensor</figcaption>
       </figure>
 
       <figure>
-	<img alt="Gyro sensor" src="images/gyro_sensor.png"/>
+	<img alt="Gyro sensor" src="images/gyro_sensor.jpeg"/>
 	<figcaption>The gyro sensor</figcaption>
       </figure>
 
@@ -473,7 +473,7 @@ The Boston Elixir <a href="http://www.meetup.com/Boston-Elixir/events/227253937/
       </figure>
 
 
-You can watch the <a href="https://www.youtube.com/watch?v=K4od_XhuMrk&feature=youtu.be&t=17m55s">video</a> of the presentation and get the <a=href="http://files.meetup.com/18220015/january_21_2016.pdf">slides</a>
+You can watch the <a href="https://www.youtube.com/watch?v=K4od_XhuMrk&feature=youtu.be&t=17m55s">video</a> of the presentation and get the <a href="http://files.meetup.com/18220015/january_21_2016.pdf">slides</a>
       
      <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jfcloutier/robotex">Robotex</a> is maintained by <a href="https://github.com/jfcloutier">jfcloutier</a>.</span>
