@@ -407,6 +407,74 @@ and build an event-aware central robot controller. Lots of fun coding and explor
 
       <p>The source code for my Ev3 library is on <a href="https://github.com/jfcloutier/ev3"> GitHub</a>.</p>
 
+      <h1><a id="january-21-2016" class="anchor" href="#january-21-2016" aria-hidden="true"><span class="octicon octicon-link"></span></a>January 21, 2016</h1>
+
+      <h2>Boston Elixir Meetup: FUn with Robots and Elixir</h2>
+
+      <p>A week and a half ago, I received an invitation to present at the Boston Elixir meetup about robots and Elixir. I figured I needed to do a number of things to get ready for the meetup.</p>
+
+      <ol>
+	<li>Upgrade the EV3 to the latest releases of Erlang and Elixir</li>
+	<li>Improve the robot's overall behavior</li>
+	<li>Combine the slides from the three previous Portland meetups into a one-hour presentation</li>
+	<li>Get a haircut</li>
+      </ol>
+
+      <h3>Upgrading the EV3</h3>
+
+      <p>The EV3 was still running version 17 of Erlang. It was time to move to the latest version (18.2.1). It promises faster compile times (a sore point on the EV3) and more efficient handling of maps.</p>
+
+      <p>Unfortunately there is no pre-packaged Debian distribution of Erlang 18.2.1 that I could find for the ARM processor the EV3 runs on (there is an Erlang 17 package). So no easy "apt-get-install erlang" for me. I had to go the build-from-source route, which meant removing Erlang v.17 (apt-get remove erlang), downloading the latest Erlang sources and building them on the EV3. </p>
+
+      <p>The Erlang sources file is available <a href="http://www.erlang.org/downloads">here</a> and the instruction for building Erlang from sources are <h href="https://github.com/erlang/otp/blob/maint/HOWTO/INSTALL.md">here</a></p>
+
+<p>Before building Erlang, don't forget to "apt-get" gcc, make, perl, m4 and sed. Don't bother with the ncurses, termcap or termlib libraries; apt-get could not find suitable ones.</p>
+
+<p>Follow the instruction for building from sources and remember to use ./configure <b>--without-termcap</b> when configuring the build, otherwise it will fail. And be patient. The whole process takes a long time on the EV3. I chose to let it run overnight.</p>
+
+<p>Upgrading Elixir is much faster and is the same as before; just download the PreCompiled.zip for the latest version and unzip it where the older version was (see top of the blog for details).</p>
+
+<h3>Improving on the robot</h3>
+
+<p>I must have been a good boy because I got two new sensors for Christmas.</p>
+
+     <figure>
+	<img alt="Utrasonic sensor" src="images/ultrasonic_sensor.png"/>
+	<figcaption>The ultrasonic sensor</figcaption>
+      </figure>
+
+      <figure>
+	<img alt="Gyro sensor" src="images/gyro_sensor.png"/>
+	<figcaption>The gyro sensor</figcaption>
+      </figure>
+
+<p> I decided to add the ultrasonic sensor to the robot and use it to detect obstacles, relegating the infrared sensor to only detecting the beacon signal.</p>
+
+     <figure>
+	<img alt="Upgraded robot" src="images/upgraded_robot.png"/>
+	<figcaption>The upgraded robot</figcaption>
+      </figure>
+
+
+<p>I also made a number of improvements to my code. I tuned the various behaviours so that the robot would find food more accurately, roam more unpredictably and panic more wildly. I also improved how the robot catches up with the here and now when it becomes overwhelmed and starts falling behind. How it does it is now both more subtle as well as more effective.</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/NbquttnKuak" frameborder="0" allowfullscreen></iframe>
+
+<p>Synopsis:</p>
+<p><i>The robot starts up hungry and searches for food. It first heads in the wrong direction, gets stuck (“I'm stuck!”) but manages to free itself. Then it smells the bacon beacon and makes a bee line toward the “food”. It slows down as it gets closer, adjusting its aim until it finds the food (blue paper). It then proceeds to eat it (“nom de nom de nom!”), turning on orange lights and running its small motor (the “mouth”). When it becomes sated, curiosity takes over and the robot roams around, trying to avoid collisions. It sometimes panics (“I'm scared!”) when it runs into walls. The lights then turn red and the poor robot behaves like a headless chicken for a while until it calms down. At some point, it gets hungry again and, this time, easily finds the food. </i></p>
+
+<h3>My talk</h3>
+
+The Boston Elixir <a href="http://www.meetup.com/Boston-Elixir/events/227253937/">meetup</a> was organized by <a href="https://dockyard.com/">Dockyard</a> and hosted by <a href="http://appcues.com/">Appcues</a>. I received a warm welcome from the organizers and the 25+ attendees.
+
+     <figure>
+	<img alt="Talk" src="images/boston_elixir_jan_21_2016.jpg"/>
+	<figcaption>Fun with Robots and Elixir</figcaption>
+      </figure>
+
+
+You can watch the <a href="https://www.youtube.com/watch?v=K4od_XhuMrk&feature=youtu.be&t=17m55s">video</a> of the presentation and get the <a=href="http://files.meetup.com/18220015/january_21_2016.pdf">slides</a>
+      
      <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jfcloutier/robotex">Robotex</a> is maintained by <a href="https://github.com/jfcloutier">jfcloutier</a>.</span>
 
