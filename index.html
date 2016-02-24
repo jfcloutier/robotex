@@ -504,7 +504,7 @@ The Boston Elixir <a href="http://www.meetup.com/Boston-Elixir/events/227253937/
 
       <p>While the Elm and Phoenix-based dashboard was the main topic of the meetup, I also presented a few improvements I had made to the robot's mind.</p>
 
-      <p>The principal improvement is the addition of <strong>reflexes</strong> to the robot's behaviors. Reflexes are simple behaviors that quick when triggered by certain percepts, temporarily taking over any other motive-driven behaviors. For example, if the robot gets stuck while foraging for food or while roaming, the "getting unstuck" reflex quicks in and the robot will try to free itself before returning to foraging or roaming.</p>
+      <p>The principal improvement is the addition of <strong>reflexes</strong> to the robot's behaviors. Reflexes are simple behaviors that quick in when triggered by certain percepts, temporarily taking over any other motive-driven behaviors. For example, if the robot gets stuck while foraging for food or roaming, the "getting unstuck" reflex is triggered and the robot will try to free itself before returning to foraging or roaming.</p>
 
       <figure>
 	<img alt="Reflexes" src="images/reflexes_small.png"/>
@@ -514,7 +514,7 @@ The Boston Elixir <a href="http://www.meetup.com/Boston-Elixir/events/227253937/
 
       <h2>Raspberry Pi in the face</h2>
 
-      <p>The implementation of the dashboard relies on <a href="http://www.phoenixframework.org/">Phoenix</a> to provide a REST API and Web socket notifications over channels. It quickly became clear that by activating Phoenix I had crossed a line and was now overtaxing the poor EV3 brick's limited memory. I had exceeded RAM and was abusing the swap file which at that point resided on the slow SD card. All that swapping was wearing it out. And the robot was in a funk. What to do?</p>
+      <p>The implementation of the dashboard relies on <a href="http://www.phoenixframework.org/">Phoenix</a> to provide a REST API and Web socket notifications over channels. It quickly became clear that by activating Phoenix I had crossed a line and was now overtaxing the poor EV3 brick's limited, 64M memory. I had exceeded RAM and was abusing the swap file which at that point resided on the slow SD card. All that swapping was wearing it out. And the robot was in a funk. What to do?</p>
 
       <p>My first thought was to upgrade to a the latest <a href="https://www.raspberrypi.org/products/raspberry-pi-2-model-b/">Raspberry Pi</a>. It's got a fast quad-core CPU and 1G of RAM. And there's something called the <a href="http://www.dexterindustries.com/shop/brickpi-advanced-for-raspberry-pi/">BrickPi</a> which makes the Pi Mindstorms-compatible. So I ordered both on Amazon.</p>
 
@@ -527,7 +527,7 @@ The Boston Elixir <a href="http://www.meetup.com/Boston-Elixir/events/227253937/
 
       <p>But it was not all peaches and roses. I found out the hard way that the BrickPi firmware was written for the old NXT version of Mindstorms. It <a href="https://github.com/DexterInd/BrickPi/issues/24">does not work well</a> with all EV3 sensors. Furthermore, it does not allow discovery of connected sensors and motors by EV3DEV, the way the EV3 does. So I had to make a number of changes to my code for this reason and others. I also ran into bugs but the EV3DEV contributors were extraordinarily responsive with answers and fixes. The bottom line is that I can not replace the EV3 brick by the BrickPi just like that and that's a bummer. I have an NXT kit so I'll soon explore building another robot using the BrickPi and NXT sensors and motors.</p>
 
-     <p>In the meanwhile, I could take advantage of a <a href="http://www.ev3dev.org/news/2015/12/30/ev3dev-jessie-2015-12-30-release/">new EV3DEV image</a> for the EV3 brick. It moves the swap file to a compresses RAM disk. The advantage is that swapping happens in RAM (fast, does not wear out) not on the SD card. The disadvantage is now there's effectively less RAM. So I got myself a new SD card and put the new image on it. So far so good.</p>
+     <p>In the meanwhile, I could take advantage of a <a href="http://www.ev3dev.org/news/2015/12/30/ev3dev-jessie-2015-12-30-release/">new EV3DEV image</a> for the EV3 brick. It moves the swap file to a compresses RAM disk. The advantage is that swapping happens in RAM (fast, does not wear out the SD card). The disadvantage is that there is now less effective RAM. I got myself a new SD card and put the new image on it.</p>
 
      <p>Then came time to install Erlang. Erlang has to be built from sources for the EV3 since no pre-built packages exist for Erlang 18 on the ARM processor and the latest releases of Elixir require it. Now that I had less RAM available, the Erlang build process was failing for lack of memory. Luckily, <a href="https://github.com/ev3dev/ev3dev/issues/520">there is a fix</a> whereby I can temporarily reallocate the swap file to the SD card. It worked. Erlang built. After that, installing Elixir (from pre-compiled zip) and Phoenix (using mix) was a piece of cake. 
 </p>
