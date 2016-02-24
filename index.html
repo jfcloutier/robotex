@@ -477,7 +477,65 @@ The Boston Elixir <a href="http://www.meetup.com/Boston-Elixir/events/227253937/
       <p>You can watch the <a href="https://www.youtube.com/watch?v=K4od_XhuMrk&feature=youtu.be&t=17m55s">video</a> of the presentation and get the <a href="http://files.meetup.com/18220015/january_21_2016.pdf">slides</a>. The source code is on <a href="https://github.com/jfcloutier/ev3">GitHub</a>.</p>
 
       <p>There were a couple embarassing moments. First when came the time to do the demo (at 0:53:0), the robot had somehow lost the network connection (Murphy will not be denied!) which led to some fumbling. This was rectified during the break. Then, after the break, the robot started up fine (at 1:14:10) but it immediately made a bee line toward Brian and tried to, er, climb up his leg (Bad boy! No!)</p>
-      
+
+      <h1><a id="february-23-2016" class="anchor" href="#february-23-2016" aria-hidden="true"><span class="octicon octicon-link"></span></a>February 23, 2016</h1>
+
+      <h2>Meetup - Robotics with Elixir - Building a robot dashboard with Elm and Phoenix </h2>
+
+      <p>This last month has been an exciting one for me. I finally took the plunge and learned <a href="http://elm-lang.org">Elm</a>, something I had been wanting to do for months. Now I had the time and a good excuse: I needed to build a dashboard for my Elixir-powered robot.</p>
+
+      <p>Where to start about Elm? For one thing, it is a thing of beauty. If, like me, you value clarity of thought and design (not that I can always achieve either myself), then you'll fall under its spell. Elm brings all the goodness of <a href="http://www.infoq.com/presentations/elm-reactive-programming">Functional Reactive Programming</a> to coding the browser. And it is <strong>very</strong> fast.</p>
+
+      <p>I read as much as I could about Elm and then launched into implementing the dashboard. Coding in Elm required that I change how I think about code, which is a plus for me (I like legally messing with my brain pathways). The effort ended up being quite straightforward once I understood the <a href="https://github.com/evancz/elm-architecture-tutorial/">Elm Architecture</a>.</p>
+
+      <figure>
+	<img alt="Ev3 dashboard" src="images/ev3_dashboard.png"/>
+	<figcaption>The robot dashboard</figcaption>
+      </figure>
+
+      <p>The only real difficulty I faced was breaking the code from a single module into multiple modules. I didn't need to but I wanted to see how well Elm could handle large code bases. After some fumbling, I finally understood how to do it from reading a <a href="https://github.com/Gizra/elm-hedley">code example</a>. The design patterns involved are quite elegant and would seem to scale to arbitrarily large code bases.</p>
+
+      <p>The dashboard works great and updates quickly, even under a barrage of notifications channeled by Phoenix, which  are converted into signals by Elm. I find the concept of <a href="http://elm-lang.org/guide/reactivity#signals">signals</a> rather mind-blowing. I was happy to report my findings to the meetup last night. The slides are <a href="http://files.meetup.com/17314552/february_23_2016.pdf">here</a>.</p>
+
+      <figure>
+	<img alt="February 23, 2016 meetup slides" src="images/february_23_2016_meetup.png"/>
+	<figcaption>February 23 2016 meetup slides</figcaption>
+      </figure>
+
+      <h2>Raspberry Pi in the face</h2>
+
+      <p>The implementation of the dashboard relies on <a href="http://www.phoenixframework.org/">Phoenix</a> to provide a REST API and Web socket notifications over channels. It quickly became clear that by activating Phoenix I had crossed a line and was now overtaxing the poor EV3 brick's limited memory. I had exceeded RAM and was abusing the swap file which at that point resided on the slow SD card. All that swapping was wearing it out. And the robot was in a funk. What to do?</p>
+
+      <p>My first thought was to upgrade to a the latest <a href="https://www.raspberrypi.org/products/raspberry-pi-2-model-b/">Raspberry Pi</a>. It's got a fast quad-core CPU and 1G of RAM. And there's something called the <a href="http://www.dexterindustries.com/shop/brickpi-advanced-for-raspberry-pi/">BrickPi</a> which makes the Pi Mindstorms-compatible. So I ordered both on Amazon.</p>
+
+      <p>Two days later, it arrived and I set out to assemble the kit and install the BrickPi version of ,a href="http://www.ev3dev.org/docs/getting-started/">EV3DEV's Linux distribution</a>, plus Erlang, Elixir and Phoenix. It took no time at all. That Raspberry Pi is zippy, at least 10 times faster than the EV3!</p>
+
+      <figure>
+	<img alt="BrickPi assembled" src="images/RPI2.jpg"/>
+	<figcaption>BrickPi assembled</figcaption>
+      </figure>
+
+      <p>But it was not all peaches and roses. I found out the hard way that the BrickPi firmware was written for the old NXT version of Mindstorms. It <a href="https://github.com/DexterInd/BrickPi/issues/24">does not work well</a> with all EV3 sensors. Furthermore, it does not allow discovery of connected sensors and motors by EV3DEV, the way the EV3 does. So I had to make a number of changes to my code for this reason and others. I also ran into bugs but the EV3DEV contributors were extraordinarily responsive with answers and fixes. The bottom line is that I can not replace the EV3 brick by the BrickPi just like that and that's a bummer. I have an NXT kit so I'll soon explore building another robot using the BrickPi and NXT sensors and motors.</p>
+
+     <p>In the meanwhile, I could take advantage of a <a href="http://www.ev3dev.org/news/2015/12/30/ev3dev-jessie-2015-12-30-release/">new EV3DEV image</a> for the EV3 brick. It moves the swap file to a compresses RAM disk. The advantage is that swapping happens in RAM (fast, does not wear out) not on the SD card. The disadvantage is now there's effectively less RAM. So I got myself a new SD card and put the new image on it. So far so good.</p>
+
+     <p>Then came time to install Erlang. Erlang has to be built from sources for the EV3 since no pre-built packages exist for Erlang 18 on the ARM processor and the latest releases of Elixir require it. Now that I had less RAM available, the Erlang build process was failing for lack of memory. Luckily, <a href="https://github.com/ev3dev/ev3dev/issues/520">there is a fix</a> whereby I can temporarily reallocate the swap file to the SD card. It worked. Erlang built. After that, installing Elixir (from pre-compiled zip) and Phoenix (using mix) was a piece of cake. 
+</p>
+
+     <p>The robot is still RAM-challenged and somewhat hobbled but it does work and it no longer wears down the SD card with constant swapping.</p>
+
+     <h2>I am speaking at Elixir Daze!</h2>
+
+<p>Soon after my presentation at the Boston Elixir meetup in January, I received confirmation that my talk (Adventures in Robotics with Elixir) had been accepted by <h href="http://www.elixirdaze.com/">Elixir Daze</a>. So I'll be in historic St. Augustine, Florida on March 4. This is exciting!</p>
+
+      <figure>
+	<img alt="Elixir Daze" src="images/elixir_daze.png"/>
+	<figcaption>Elixir Daze 2016</figcaption>
+      </figure>
+
+     <p>My slides are ready, my plane tickets are bought and the hotel reservations made. All I have to do is figure out how to squeeze too much material into 45 minutes.</p>
+
+
      <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jfcloutier/robotex">Robotex</a> is maintained by <a href="https://github.com/jfcloutier">jfcloutier</a>.</span>
 
