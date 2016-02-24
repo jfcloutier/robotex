@@ -502,6 +502,16 @@ The Boston Elixir <a href="http://www.meetup.com/Boston-Elixir/events/227253937/
 	<figcaption>February 23 2016 meetup slides</figcaption>
       </figure>
 
+      <p>While the Elm and Phoenix-based dashboard was the main topic of the meetup, I also presented a few improvements I had made to the robot's mind.</p>
+
+      <p>The principal improvement is the addition of <strong>reflexes</strong> to the robot's behaviors. Reflexes are simple behaviors that quick when triggered by certain percepts, temporarily taking over any other motive-driven behaviors. For example, if the robot gets stuck while foraging for food or while roaming, the "getting unstuck" reflex quicks in and the robot will try to free itself before returning to foraging or roaming.</p>
+
+      <figure>
+	<img alt="Reflexes" src="images/reflexes_small.png"/>
+	<figcaption>Dashboard - getting unstuck reflex</figcaption>
+      </figure>
+
+
       <h2>Raspberry Pi in the face</h2>
 
       <p>The implementation of the dashboard relies on <a href="http://www.phoenixframework.org/">Phoenix</a> to provide a REST API and Web socket notifications over channels. It quickly became clear that by activating Phoenix I had crossed a line and was now overtaxing the poor EV3 brick's limited memory. I had exceeded RAM and was abusing the swap file which at that point resided on the slow SD card. All that swapping was wearing it out. And the robot was in a funk. What to do?</p>
